@@ -14,6 +14,14 @@ function highlight_utils.get_treesitter_hl(bufnr, row, col)
     return {}
   end
 
+  if vim.fn.has('nvim-0.8') == 1 then
+    local matches = vim.treesitter.get_captures_at_pos(bufnr, row, col)
+
+    return vim.tbl_map(function(match)
+      return "@" .. match.capture
+    end, matches)
+  end
+
   local matches = {}
 
   rubyHighlighter.tree:for_each_tree(function(tstree, tree)
