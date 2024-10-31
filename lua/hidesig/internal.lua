@@ -68,7 +68,7 @@ function hidesig.highlightLines(bufnr, range, tree, lang, opacity)
   end
 
   local rootNode = tree:root()
-  local parsedQuery = ts_query.get_query(lang, "sig_def")
+  local parsedQuery = ts_query.get_query(lang, "sorbet")
 
   local startRow = range[1]
   local endRow = range[2]
@@ -76,7 +76,7 @@ function hidesig.highlightLines(bufnr, range, tree, lang, opacity)
   vim.api.nvim_buf_clear_namespace(bufnr, namespace, startRow, endRow)
 
   for _, captures in parsedQuery:iter_matches(rootNode, bufnr, startRow, endRow) do
-    local sigBlock = captures[2] -- capture @sig_def
+    local sigBlock = captures[2] -- capture @sorbet
 
     if sigBlock ~= nil and not sigBlock:has_error() then
       for rootChildNode in sigBlock:iter_children() do
